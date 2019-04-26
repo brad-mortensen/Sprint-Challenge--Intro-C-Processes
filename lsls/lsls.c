@@ -18,7 +18,7 @@ int main(int argc, char **argv)
   }
   while ((pDirent = readdir(pDir)) != NULL)
   {
-    printf("[%s]\n", pDirent->d_name);
+    printf("%s\n", pDirent->d_name);
   }
   closedir(pDir);
   return 0;
