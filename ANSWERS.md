@@ -12,8 +12,8 @@ Z: Zombie: terminated processes that are waiting to have their statuses collecte
 
 **3. How does a zombie process get created? How does one get destroyed?**
 
-If the parent process calls the wait() system call / Once the zombie process reports to its parent process.
+If the parent process calls the wait() system call / Once the zombie process reports to its parent process .
 
 **4. What are some of the benefits of working in a compiled language versus a non-compiled language? More specifically, what benefits are there to be had from taking the extra time to compile our code?**
 
-The program is more performant when compiled at compiled time instead of at runtime.
+The program is more performant when compiled at compile time instead of at runtime. More control over memory allocation and process execution. 
