@@ -3,6 +3,7 @@
 #include <sys/stat.h>
 #include <errno.h>
 #include <stdlib.h>
+#include <string.h>
 
 /**
  * Main
@@ -12,9 +13,17 @@ int main(int argc, char **argv)
   // Parse command line
   printf("There are %d command line argument(s)\n", argc);
   struct dirent *pDirent;
-  DIR *pDir;
+  char *directory;
+  if (argc <= 1)
+  {
+    directory = ".";
+  }
+  else
+  {
+    directory = argv[1];
+  }
+  DIR *pDir = opendir(directory);
   struct stat *buf = malloc(sizeof(struct stat));
-  pDir = opendir(argv[1]);
   if (pDir == NULL)
   {
     printf("Cannot open directory '%s'\n", argv[1]);
@@ -22,16 +31,22 @@ int main(int argc, char **argv)
   }
   while ((pDirent = readdir(pDir)) != NULL)
   {
-    if (stat(pDirent->d_name, buf))
+    char *conCat = malloc(strlen(directory) + strlen(pDirent->d_name) + 1);
+    strcat(conCat, directory);
+    strcat(conCat, "/");
+    strcat(conCat, pDirent->d_name);
+    // printf("concatenated string path: %s", conCat);
+    if (lstat(conCat, buf) == 0)
     {
-      printf("%lld", buf->st_size);
+      printf("%lld ", buf->st_size);
       printf("%s\n", pDirent->d_name);
     }
-    else 
+    else
     {
-      printf("<DIR> %s\n", pDirent->d_name);
+      perror(directory);
     }
   }
+  free(buf);
   closedir(pDir);
   return 0;
 }
