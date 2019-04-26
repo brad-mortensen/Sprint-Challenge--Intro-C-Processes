@@ -22,6 +22,7 @@ int main(int argc, char **argv)
   {
     directory = argv[1];
   }
+  // Open directory
   DIR *pDir = opendir(directory);
   struct stat *buf = malloc(sizeof(struct stat));
   if (pDir == NULL)
@@ -29,6 +30,7 @@ int main(int argc, char **argv)
     printf("Cannot open directory '%s'\n", argv[1]);
     return 1;
   }
+  // Repeatly read and print entries
   while ((pDirent = readdir(pDir)) != NULL)
   {
     char *conCat = malloc(strlen(directory) + strlen(pDirent->d_name) + 1);
@@ -38,21 +40,15 @@ int main(int argc, char **argv)
     // printf("concatenated string path: %s", conCat);
     if (lstat(conCat, buf) == 0)
     {
-      printf("%lld ", buf->st_size);
-      printf("%s\n", pDirent->d_name);
+      printf("%lld %s\n ", buf->st_size, pDirent->d_name);
     }
     else
     {
       perror(directory);
     }
   }
+  // Close directory
   free(buf);
   closedir(pDir);
   return 0;
 }
-
-// Open directory
-
-// Repeatly read and print entries
-
-// Close directory
