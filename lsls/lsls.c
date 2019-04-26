@@ -8,18 +8,24 @@ int main(int argc, char **argv)
 {
   // Parse command line
   printf("There are %d command line argument(s):\n", argc);
-  if (argc <= 1)
+  struct dirent *pDirent;
+  DIR *pDir;
+  pDir = opendir(argv[1]);
+  if (pDir == NULL)
   {
+    printf("Cannot open directory '%s'\n", argv[1]);
+    return 1;
   }
-  for (int i = 0; i < argc; i++)
+  while ((pDirent = readdir(pDir)) != NULL)
   {
-    printf("   %s\n", argv[i]);
+    printf("[%s]\n", pDirent->d_name);
   }
-  // Open directory
-
-  // Repeatly read and print entries
-
-  // Close directory
-
+  closedir(pDir);
   return 0;
 }
+
+// Open directory
+
+// Repeatly read and print entries
+
+// Close directory
